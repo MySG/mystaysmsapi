@@ -1,0 +1,110 @@
+FORMAT: 1A
+HOST: https://api.mystay.cz/sms/v1
+
+# MyStay SMS API
+
+Send sms using MyStay SMS API
+
+# Group SMS
+
+## Send [/send{?key}{?phone}{?message}]
+
++ Parameters
+    + key: `eb6b9e546014` (string,required) - SMS API key
+    + phone: `+420123567789` (string,required) - Phone number 
+    + message: `Some message` (string,optional) - Custom message, needs to be enabled
+### Send sms message [POST]
+
+Send sms message
+
+Status codes:
+- 1: Message sent successfully
+- 2: Invalid phone number
+- 3: Error
+- 100: Custom message not permitted, contact administrator
+- 101: Message not found, check message id
+- 102: Unauthorized access, check your api key
+
++ Response 200 (application/json)
+
+        {
+            "success": true,
+            "statusCode": 1,
+            "statusMessage": "Message sent",
+            "messageId": 1932823
+        }
+
++ Response 200 (application/json)
+
+        {
+            "success": false,
+            "statusCode": 2,
+            "statusMessage": "Invalid phone number",
+        }
+
++ Response 200 (application/json)
+
+        {
+            "success": false,
+            "statusCode": 3,
+            "statusMessage": "Error",
+        }
+
++ Response 200 (application/json)
+
+        {
+            "success": false,
+            "statusCode": 100,
+            "statusMessage": "Custom message not permitted",
+        }
+
++ Response 401 (application/json)
+
+        {
+            "success": false,
+            "statusCode": 102,
+            "statusMessage": "Unauthorized, check API key",
+        }
+## Get status [/status{?key}{?id}]
+
++ Parameters
+    + key: `eb6b9e546014` (string,required) - SMS API key
+    + id: `783474` (number,required) - messageId
+    
+### Get delivery status [GET]
+
+Status codes:
+- 1: OK
+- 101: Message not found, check message id
+- 102: Unauthorized access, check your api key
+
+Message status codes:
+
+TBD
+
++ Response 200 (application/json)
+
+        {
+            "success": true,
+            "statusCode": 1,
+            "statusMessage": "OK",
+            "messageId": 1932823
+            "messageStatusCode": 22,
+            "messageStatusMessage": "Delivered"
+        }
+        
++ Response 200 (application/json)
+
+        {
+            "success": false,
+            "statusCode": 101,
+            "statusMessage": "Message not found",
+        }
+
++ Response 401 (application/json)
+
+        {
+            "success": false,
+            "statusCode": 102,
+            "statusMessage": "Unauthorized, check API key",
+        }
